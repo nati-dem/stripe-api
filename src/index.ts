@@ -1,5 +1,6 @@
 import express from "express";
 import "./config/common";
+import {logger} from "./config/logger";
 import {paymentRouter} from "./routes/payment.router";
 
 const app = express();
@@ -9,5 +10,5 @@ app.use(express.json())
 app.use("/payment", paymentRouter);
 
 app.listen(port, () => {
-    console.log(`Server started at http://localhost:${port}`);
+    logger.info(`Server started at http://localhost:${port}`);
 });
