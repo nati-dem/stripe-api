@@ -1,16 +1,15 @@
 import express, { Request, Response } from "express";
-import stripeService from '../service/stripe-service';
+import {stripeService} from '../service/stripe-service';
 import {PaymentRequest} from '../models/payment-request';
-import dotenv from "dotenv";
+import "../config/common";
 import _ from 'lodash';
-dotenv.config();
 
 export const paymentRouter = express.Router();
 
 paymentRouter.post("/checkout", async (req: Request, res: Response) => {
     const checkoutRequest: PaymentRequest = req.body;
-    
-    if(_.isEmpty(checkoutRequest.price) || _.isEmpty(checkoutRequest.quantity)) {
+
+    if(!_.isFinite(checkoutRequest.price) || !_.isFinite(checkoutRequest.quantity)) {
         res.status(400).json({ error: 'Invalid request' })
     } else {
         try {
